@@ -1,24 +1,29 @@
-<h2 id="room" data-room="<%= @room.id %>" data-user="<%= current_user.id %>"><%= @user.name %> さんとのトークルーム</h2>
-
-<div class="message" style="width: 400px;">
-    <% @chats.each do |chat| %>
-        <% if chat.user_id == current_user.id %>
-            <%= render "chats/chat", chat: chat %>
-        <% else %>
-            <div class="left-container d-flex">
-                <%= image_tag @ser.get_profile_image, size: '30x30',style: 'border-radius: 50%' %>
-                <p class=ml-1 style="text-align: left;"><span style="background-color: #F5F5DC; padding: 5px; border-radius: 10px;"><%= chat.message %></span></p>
-            </div>
+<div class="cover-chat-show">
+    <div class="container d-flex flex-column align-items-center">
+        <div class="row mt-5">
+            <h1 class="font-weight-normal"><%= @user.name %>さんとのトークルーム</h1>
+        </div>
+        <div class="message" style="width: 100%; max-width: 600px;">
+            <% @chats.each do |chat| %>
+                <div class="mb-3">
+                    <% if chat.user_id == current_user.id %>
+                        <%= render 'index', chat: chat %>
+                    <% else %>
+                        <div class="left-container d-flex align-items-start">
+                            <p class="ml-2" style="text-align: left;">
+                                <span style="background-color: #fce4ec; padding: 8px 12px; border-radius: 10px; display: inline-block;">
+                                    <%= chat.message %>
+                                </span>
+                            </p>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+        <%= form_with model: @chat, data: {remote: true} do |f| %>
+            <%= f.text_field :message %>
+            <%= f.submit "送信する", class: "btn btn-dark btn-sm" %>
+            <%= f.hidden_field :room_id %>
         <% end %>
-    <% end %>
+    </div>
 </div>
-
-<div class="errors">
-    <%= render "layouts/errors", obj: @chat %>
-</div>
-
-<%= form_with model: @chat, data: {remote: true} do |f| %>
-    <%= f.text_field :message %>
-    <%= f.submit "送信する", class: "btn btn-dark btn-sm" %>
-    <%= f.hidden_field :room_id%>
-<% end %>

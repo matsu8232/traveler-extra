@@ -5,7 +5,6 @@ Rails.application.routes.draw do
       get :follows, :followers
     end
     resource :relationships, only: [:create, :destroy]
-    resources :chats, only: [:show, :create, :destroy]
   end
   resources :posts do
     resources :comments, only:[:create, :destroy]
@@ -15,6 +14,8 @@ Rails.application.routes.draw do
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  resources :chats, only: [:show, :create, :destroy]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
