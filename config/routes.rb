@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get :follows, :followers
     end
     resource :relationships, only: [:create, :destroy]
+    resources :chats, only: [:show, :create, :destroy]
   end
   resources :posts do
     resources :comments, only:[:create, :destroy]
