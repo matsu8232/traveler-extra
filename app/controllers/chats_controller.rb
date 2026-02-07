@@ -20,8 +20,16 @@ class ChatsController < ApplicationController
 
   def create
     @chat = current_user.chats.new(chat_params)
-    unless @chat.save
-      render :validate, formats: :js
+    if @chat.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to room_path(@chat.room_id)}
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to room_path(@chat.room_id) }
+      end
     end
   end
 
